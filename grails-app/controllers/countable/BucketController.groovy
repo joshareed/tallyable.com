@@ -10,18 +10,11 @@ class BucketController {
 	/* creation methods */
 	def check() {
 		// check if bucket exists
-		render "Check: $params"
+		render "Check: ${params.bucket}"
 	}
 
 	def create() {
-		withForm {
-			// create the bucket
-			render "Create: ${params.bucket}"
-			return
-		}.invalidToken {
-			render "Error"
-			return
-		}
+		render "Create: ${params.bucket}"
 	}
 
 	/* admin services */

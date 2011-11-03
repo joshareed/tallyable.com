@@ -10,7 +10,7 @@
 		Get started counting by creating your own bucket.  All you need is an email address!
 	</p>
 	<div>
-		<g:form controller="bucket" method="post" useToken="true">
+		<g:form controller="bucket" method="post" useToken="false">
 			<g:hiddenField name="check" value="${check}"/>
 			<div class="clearfix">
 				<label for="bucket">Bucket</label>
