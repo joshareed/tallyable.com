@@ -2,5 +2,7 @@
 .project
 .classpath
 .settings
-mongo
 target
+/mongo
+cobertura.ser
+stacktrace.log
