@@ -13,7 +13,7 @@ class MongoServiceTests {
 
 	@Before
 	public void setup() {
-		service.grailsApplication = [config: [mongo: [host: 'localhost', db: 'countable_test']]]
+		service.grailsApplication = [config: [mongo: [host: 'localhost', db: 'tallyable_test']]]
 		def col = service.getCollection('_test_object', true)
 
 		assert col.insert([name: 'Test'] as BasicDBObject)

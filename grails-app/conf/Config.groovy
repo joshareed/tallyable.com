@@ -64,22 +64,22 @@ environments {
 		grails.logging.jul.usebridge = true
 		mongo {
 			host = 'localhost'
-			db = 'countable_dev'
+			db = 'tallyable_dev'
 		}
 	}
 	test {
 		mongo {
 			host = 'localhost'
-			db = 'countable_test'
+			db = 'tallyable'
 		}
 	}
 	production {
 		grails.logging.jul.usebridge = false
-		grails.serverURL = "http://www.changeme.com"
+		grails.serverURL = "http://tallyable.com"
 
 		mongo {
 			host = 'localhost'
-			db = 'countable'
+			db = 'tallyable'
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package countable
+package tallyable
 
 import grails.test.mixin.*
 import org.junit.*
@@ -13,7 +13,7 @@ class BucketControllerTests {
 
 	@Before
 	void setUp() {
-		mongoService = new MongoService('localhost', 'countable_test')
+		mongoService = new MongoService('localhost', 'tallyable_test')
 		mongoService.getCollection('buckets', true).add(name: 'test')
 		controller.mongoService = mongoService
 	}

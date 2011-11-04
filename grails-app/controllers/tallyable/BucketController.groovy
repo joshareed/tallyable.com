@@ -1,4 +1,4 @@
-package countable
+package tallyable
 
 import grails.converters.JSON
 
