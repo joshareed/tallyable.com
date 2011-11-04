@@ -14,16 +14,16 @@ class MongoServiceTests {
 	@Before
 	public void setup() {
 		service.grailsApplication = [config: [mongo: [host: 'localhost', db: 'countable_test']]]
-		def col = service.getCollection('_test_object')
-		if (!col) {
-			col = service.mongo.getDB('countable_test').createCollection('_test_object', [:] as BasicDBObject)
-		}
+		def col = service.getCollection('_test_object', true)
+
 		assert col.insert([name: 'Test'] as BasicDBObject)
 	}
 
 	@After
 	public void tearDown() {
 		service.getCollection('_test_object').drop()
+		def remove = GroovySystem.metaClassRegistry.&removeMetaClass
+		remove MongoService
 	}
 
 	void testGetCollection() {

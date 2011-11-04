@@ -7,7 +7,7 @@ class MongoService {
 	private def _mongo
 	boolean transactional = false
 
-	static {
+	MongoService() {
 		// some convenience methods
 		DBCollection.metaClass {
 			count << { LinkedHashMap query -> delegate.count(query as BasicDBObject) }
@@ -20,6 +20,11 @@ class MongoService {
 			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
 			remove << { LinkedHashMap query -> delegate.remove(query as BasicDBObject) }
 		}
+	}
+
+	MongoService(host, db) {
+		this()
+		grailsApplication = [config: [mongo: [host: host, db: db]]]
 	}
 
 	/**
@@ -46,7 +51,7 @@ class MongoService {
 	/**
 	 * Get a collection by name.  If the collection doesn't exist, this method returns null.
 	 */
-	def getCollection(name) {
+	def getCollection(name, create = false) {
 		if (!name) { return null }
 
 		// get our database and collection
@@ -54,7 +59,11 @@ class MongoService {
 		if (db.collectionExists(name)) {
 			return db.getCollection(name)
 		} else {
-			return null
+			if (create) {
+				return db.createCollection(name, [:] as BasicDBObject)
+			} else {
+				return null
+			}
 		}
 	}
 }
