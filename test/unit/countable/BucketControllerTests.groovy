@@ -2,12 +2,26 @@ package countable
 
 import grails.test.mixin.*
 import org.junit.*
+import mongo.MongoService
 
 /**
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(BucketController)
 class BucketControllerTests {
+	def mongoService
+
+	@Before
+	void setUp() {
+		mongoService = new MongoService('localhost', 'countable_test')
+		mongoService.getCollection('buckets', true).add(name: 'test')
+		controller.mongoService = mongoService
+	}
+
+	@After
+	void tearDown() {
+		mongoService?.buckets?.drop()
+	}
 
 	void testShow() {
 		controller.params.putAll(bucket: 'test', key: 'coffee')
@@ -15,10 +29,21 @@ class BucketControllerTests {
 		assert 'Show: test/coffee' == controller.response.contentAsString
 	}
 
-	void testCheck() {
+	void testCheckDoesNotExists() {
+		controller.params.bucket = 'test-does-not-exists'
+		controller.check()
+		assert '{"exists":false}' == controller.response.contentAsString
+	}
+
+	void testCheckExists() {
 		controller.params.bucket = 'test'
 		controller.check()
-		assert 'Check: test' == controller.response.contentAsString
+		assert '{"exists":true}' == controller.response.contentAsString
+	}
+
+	void testCheckMalformed() {
+		controller.check()
+		assert '{"exists":false}' == controller.response.contentAsString
 	}
 
 	void testActivated() {

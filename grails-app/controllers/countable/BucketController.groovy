@@ -1,7 +1,11 @@
 package countable
 
+import grails.converters.JSON
+
 class BucketController {
 	static allowedMethods = [post: 'POST', create: 'POST']
+
+	def mongoService
 
 	def show() {
 		render "Show: ${params.bucket}/${params.key}"
@@ -9,8 +13,8 @@ class BucketController {
 
 	/* creation methods */
 	def check() {
-		// check if bucket exists
-		render "Check: ${params.bucket}"
+		def bucket = getBucket(params.bucket)
+		render ([exists: (bucket != null)] as JSON)
 	}
 
 	def create() {
@@ -31,5 +35,13 @@ class BucketController {
 	def post() {
 		// check secret
 		render "${params.secret}: Post"
+	}
+
+	private getBucket(bucket) {
+		if (bucket) {
+			mongoService.getCollection('buckets', true).find(name: bucket)
+		} else {
+			null
+		}
 	}
 }
