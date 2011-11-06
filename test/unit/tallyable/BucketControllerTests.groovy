@@ -2,6 +2,7 @@ package tallyable
 
 import grails.test.mixin.*
 import org.junit.*
+
 import mongo.MongoService
 
 /**
@@ -9,13 +10,16 @@ import mongo.MongoService
  */
 @TestFor(BucketController)
 class BucketControllerTests {
+	def bucketService
 	def mongoService
 
 	@Before
 	void setUp() {
 		mongoService = new MongoService('localhost', 'tallyable_test')
 		mongoService.getCollection('buckets', true).add(name: 'test')
-		controller.mongoService = mongoService
+		bucketService = new BucketService()
+		bucketService.mongoService = mongoService
+		controller.bucketService = bucketService
 	}
 
 	@After

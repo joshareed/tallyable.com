@@ -56,6 +56,11 @@
 			<p>${flash.message}</p>
 		</div>
 	</g:if>
+	<g:if test="${flash.error}">
+		<div class="alert-message error" role="status">
+			<p>${flash.error}</p>
+		</div>
+	</g:if>
 	<h1>Tallyable <small>A silly little site for counting things.</small></h1>
 	<p style="margin-bottom: 20px">
 		Get started by creating your own bucket to store all your tallies.	All you need is an email address!
