@@ -16,9 +16,17 @@ class MongoService {
 			findAll << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject) }
 			find << { LinkedHashMap query -> delegate.findOne(query as BasicDBObject) }
 			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.findOne(query as BasicDBObject, filter as BasicDBObject) }
-			add << { LinkedHashMap doc -> delegate.insert(doc as BasicDBObject) }
-			update << { BasicDBObject doc, LinkedHashMap op -> delegate.update(doc, op as BasicDBObject) }
+			add << { LinkedHashMap doc ->
+				def dbo = doc as BasicDBObject
+				delegate.insert(dbo)
+				dbo
+			}
+			update << { LinkedHashMap q, BasicDBObject op -> delegate.update(q as BasicDBObject, op) }
 			remove << { LinkedHashMap query -> delegate.remove(query as BasicDBObject) }
+		}
+
+		DBCursor.metaClass {
+			sort << { LinkedHashMap doc -> delegate.sort(doc as BasicDBObject) }
 		}
 	}
 

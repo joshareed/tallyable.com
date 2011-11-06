@@ -73,7 +73,9 @@ class MongoServiceTests {
 
 		// update
 		def doc = col.find(name: 'Test')
-		col.update(doc, [name: 'Josh'])
+		doc.name = 'Josh'
+		col.update([name: 'Test'], doc)
+		assert 1 == col.count(name: 'Josh')
 
 		// remove
 		assert 1 == col.count(name: 'Test')
