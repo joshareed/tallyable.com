@@ -16,7 +16,7 @@ class BucketControllerTests {
 	@Before
 	void setUp() {
 		mongoService = new MongoService('localhost', 'tallyable_test')
-		mongoService.getCollection('buckets', true).add(name: 'test')
+		mongoService.getCollection('buckets', true).add(name: 'test', token: 'secret')
 		bucketService = new BucketService()
 		bucketService.mongoService = mongoService
 		controller.bucketService = bucketService
@@ -50,16 +50,31 @@ class BucketControllerTests {
 		assert '{"exists":false}' == controller.response.contentAsString
 	}
 
-	void testActivated() {
+	void testActivateNoBucket() {
 		controller.params.secret = 'secret'
 		controller.activate()
-		assert 'secret: Activated!' == controller.response.contentAsString
+		assert 404 == controller.response.status
+	}
+
+	void testActivateNoSecret() {
+		controller.params.bucket = 'test'
+		controller.activate()
+		assert 401 == controller.response.status
+	}
+
+	void testActivate() {
+		controller.params.bucket = 'test'
+		controller.params.secret = 'secret'
+		controller.activate()
+		assert 302 == controller.response.status
+		assert '/bucket/admin?bucket=test&secret=secret' == controller.response.redirectedUrl
 	}
 
 	void testAdmin() {
+		controller.params.bucket = 'test'
 		controller.params.secret = 'secret'
 		controller.admin()
-		assert 'secret: Admin' == controller.response.contentAsString
+		assert 200 == controller.response.status
 	}
 
 	void testPost() {

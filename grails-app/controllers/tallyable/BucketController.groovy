@@ -49,17 +49,46 @@ class BucketController {
 
 	/* admin services */
 	def activate() {
-		// check secret
-		render "${params.secret}: Activated!"
+		withBucket(params) { bucket ->
+			bucketService.activate(params.bucket)
+			flash.message = 'Bucket activated!'
+			redirect controller: 'bucket', action: 'admin', params: [bucket: bucket.name, secret: bucket.token]
+		}
 	}
 
 	def admin() {
-		// check secret
-		render "${params.secret}: Admin"
+		withBucket(params) { bucket ->
+			[bucket: bucket]
+		}
+	}
+
+	def token() {
+		withBucket(params) { bucket ->
+			bucket = bucketService.newToken(params.bucket)
+			flash.message = 'New token generated!'
+			redirect controller: 'bucket', action: 'admin', params: [bucket: bucket.name, secret: bucket.token]
+		}
 	}
 
 	def post() {
 		// check secret
 		render "${params.secret}: Post"
+	}
+
+	private withBucket(Map params, Closure closure) {
+		def bucket = bucketService.get(params.bucket)
+		if (!bucket) {
+			response.status = 404
+			render 'Invalid bucket'
+			return
+		}
+
+		if (bucket.token != params.secret) {
+			response.status = 401
+			render 'Invalid token'
+			return
+		}
+
+		return closure.call(bucket)
 	}
 }
