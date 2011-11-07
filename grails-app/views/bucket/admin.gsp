@@ -30,11 +30,40 @@
 		</div>
 	</g:elseif>
 	<g:else>
+		<div class="span4 well" style="float: right">
+			<p>Posts: ${stats.count}</p>
+			<p>
+				<g:link controller="bucket" action="show" params="[bucket: bucket.name]">${bucket.name}</g:link>
+				<g:if test="${stats.keys}">
+					<ul>
+					<g:each in="${stats.keys}" var="key">
+						<li><g:link controller="bucket" action="show" params="[bucket: bucket.name, key: key]">${key}</g:link></li>
+					</g:each>
+					</ul>
+				</g:if>
+			</p>
+		</div>
 		<div>
 			<h3>Token</h3>
 			<p>
 				${bucket.token}
 				<g:link controller="bucket" action="token" params="[bucket: bucket.name, secret: bucket.token]" class="btn small" style="margin-left: 20px">New Token</g:link>
+			</p>
+		</div>
+		<div>
+			<h3>
+				Posting
+				<small>
+					&mdash;
+					<g:link controller="bucket" action="activate" params="[bucket: bucket.name, secret: bucket.token]">Endpoint</g:link>
+				</small>
+			</h3>
+			<p>
+				<g:form action="post" params="[bucket: bucket.name, secret: bucket.token]">
+					<input type="text" name="key" id="key" placeholder="key"/> :
+					<input type="text" name="value" id="value" placeholder="value" class="span2"/>
+					<input type="submit" value="Post!" placeholder="value" class="primary btn" style="margin-left: 10px">
+				</g:form>
 			</p>
 		</div>
 	</g:else>

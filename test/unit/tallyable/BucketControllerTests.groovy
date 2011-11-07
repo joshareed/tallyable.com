@@ -78,10 +78,10 @@ class BucketControllerTests {
 	}
 
 	void testPost() {
-		controller.params.secret = 'secret'
+		controller.params.putAll(bucket: 'test', secret: 'secret', key: 'key', value: '1')
 		controller.request.method = "POST"
 		controller.post()
-		assert 'secret: Post' == controller.response.contentAsString
+		assert 'Got it!' == controller.flash.message
 	}
 
 	void testCreate() {

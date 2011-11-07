@@ -58,7 +58,7 @@ class BucketController {
 
 	def admin() {
 		withBucket(params) { bucket ->
-			[bucket: bucket]
+			[bucket: bucket, stats: bucketService.getStats(bucket.name)]
 		}
 	}
 
@@ -71,21 +71,58 @@ class BucketController {
 	}
 
 	def post() {
-		// check secret
-		render "${params.secret}: Post"
+		// parse our key and fragment
+		def key = params.key
+		def fragment = null
+		if (!key) {
+			response.sendError(400, 'Key is required')
+			return
+		}
+		if (key.contains(':')) {
+			(key, fragment) = key.split(':').collect { it.trim() }
+		}
+		if (!bucketService.validate(key)) {
+			response.sendError(400, 'Invalid key. Only letters, numbers, and ._- allowed')
+			return
+		}
+		if (fragment && !bucketService.validate(fragment)) {
+			response.sendError(400, 'Invalid fragment. Only letters, numbers, and ._- allowed')
+			return
+		}
+
+		// parse the value
+		if (!params.value) {
+			response.sendError(400, 'Value is required')
+			return
+		}
+		if (!params.value.isNumber()) {
+			response.sendError(400, 'Value is limited to decimal numers')
+			return
+		}
+
+		// post
+		withBucket(params) { bucket ->
+			def post = bucketService.post(bucket.name, key, fragment, params.value as double)
+			flash.message = 'Got it!'
+			if (request.isXhr()) {
+				render (post as JSON)
+			} else if (request.getHeader('referer')) {
+				redirect url: request.getHeader('referer')
+			} else {
+				redirect controller: 'bucket', action: 'show', params: [bucket: bucket.name]
+			}
+		}
 	}
 
 	private withBucket(Map params, Closure closure) {
 		def bucket = bucketService.get(params.bucket)
 		if (!bucket) {
-			response.status = 404
-			render 'Invalid bucket'
+			response.sendError(404, 'Invalid bucket')
 			return
 		}
 
 		if (bucket.token != params.secret) {
-			response.status = 401
-			render 'Invalid token'
+			response.sendError(401, 'Invalid token')
 			return
 		}
 
