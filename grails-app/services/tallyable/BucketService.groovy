@@ -23,6 +23,7 @@ class BucketService {
 			bucket.activated = true
 			buckets.update(['_id': bucket._id], bucket)
 		}
+		return bucket
 	}
 
 	def create(String name, String email) {
@@ -46,18 +47,18 @@ class BucketService {
 	}
 
 	def post(String name, String key, String fragment, def value) {
-		def post
 		def bucket = get(name)
 		if (bucket && validate(key) && (!fragment || validate(fragment))) {
-			post = posts.add(
+			return posts.add(
 				'bucket': name.toLowerCase(),
 				'key': key.toLowerCase(),
 				'fragment': (fragment ? fragment.toLowerCase() : null),
 				'value': value,
 				'timestamp': new Date()
 			)
+		} else {
+			return null
 		}
-		post
 	}
 
 	def newToken(String name) {
@@ -65,15 +66,40 @@ class BucketService {
 		if (bucket) {
 			bucket.token = createToken(name)
 			buckets.update([name: name], bucket)
+			return bucket
+		} else {
+			return null
 		}
-		bucket
 	}
 
-	def findPosts(String name, String key = null, String fragment = null) {
+	def getStats(String name, String key = null, String fragment = null) {
+		def bucket = get(name)
+		if (bucket) {
+			def posts = getPosts()
+			def q = buildQuery(name, key, fragment)
+			def stats = [bucket: name]
+			stats.count = posts.count(q)
+			stats.keys = posts.distinct('key', q).collect { it }
+			stats.fragments = posts.distinct('fragment', q)
+			return stats
+		} else {
+			return null
+		}
+	}
+
+	private buildQuery(String name, String key = null, String fragment = null) {
 		def q = [bucket: name]
 		if (key) { q.key = key }
 		if (fragment) { q.fragment = fragment }
-		posts.findAll(q).sort(timestamp: 1)
+	}
+
+	def getFeed(String name, String key = null, String fragment = null) {
+		def feed = getStats(name, key, fragment)
+		if (feed) {
+			feed.posts = posts.find(buildQuery(name, key, fragment)).sort(timestamp: 1).collect { it }
+		} else {
+			return null
+		}
 	}
 
 	private getBuckets() {

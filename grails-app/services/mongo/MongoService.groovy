@@ -16,6 +16,7 @@ class MongoService {
 			findAll << { LinkedHashMap query, LinkedHashMap filter -> delegate.find(query as BasicDBObject, filter as BasicDBObject) }
 			find << { LinkedHashMap query -> delegate.findOne(query as BasicDBObject) }
 			find << { LinkedHashMap query, LinkedHashMap filter -> delegate.findOne(query as BasicDBObject, filter as BasicDBObject) }
+			distinct << { String key, LinkedHashMap query -> delegate.distinct(key, query as BasicDBObject) }
 			add << { LinkedHashMap doc ->
 				def dbo = doc as BasicDBObject
 				delegate.insert(dbo)
