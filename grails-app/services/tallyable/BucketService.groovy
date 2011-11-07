@@ -60,6 +60,15 @@ class BucketService {
 		post
 	}
 
+	def newToken(String name) {
+		def bucket = get(name)
+		if (bucket) {
+			bucket.token = createToken(name)
+			buckets.update([name: name], bucket)
+		}
+		bucket
+	}
+
 	def findPosts(String name, String key = null, String fragment = null) {
 		def q = [bucket: name]
 		if (key) { q.key = key }

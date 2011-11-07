@@ -15,7 +15,7 @@ class BucketServiceTests {
 	@Before
 	void setUp() {
 		mongoService = new MongoService('localhost', 'tallyable_test')
-		mongoService.getCollection('buckets', true).add(name: 'test')
+		mongoService.getCollection('buckets', true).add(name: 'test', token: 'secret')
 		service.mongoService = mongoService
 	}
 
@@ -67,5 +67,11 @@ class BucketServiceTests {
 		service.activate('josh')
 		bucket = service.get('josh')
 		assert bucket.activated
+	}
+
+	void testNewToken() {
+		assert 'secret' == service.get('test').token
+		service.newToken('test')
+		assert 'secret' != service.get('test').token
 	}
 }
