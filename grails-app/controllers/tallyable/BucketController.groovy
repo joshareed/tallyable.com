@@ -8,7 +8,25 @@ class BucketController {
 	def bucketService
 
 	def show() {
-		render "Show: ${params.bucket}/${params.key}"
+		def bucket = bucketService.get(params.bucket)
+		if (bucket) {
+			def key = params.key
+			def fragment = null
+			if (key && key.contains(':')) {
+				(key, fragment) = key.split(':').collect { it.trim() }
+			}
+			def feed = bucketService.getFeed(bucket.name, key, fragment)
+			withFormat {
+				html {
+					[feed: feed]
+				}
+				json {
+					render ((feed) as JSON)
+				}
+			}
+		} else {
+			sendError(404, 'Invalid bucket name')
+		}
 	}
 
 	/* creation methods */

@@ -77,7 +77,8 @@ class BucketService {
 		if (bucket) {
 			def posts = getPosts()
 			def q = buildQuery(name, key, fragment)
-			def stats = [bucket: name]
+			def stats = [:]
+			stats.putAll(q)
 			stats.count = posts.count(q)
 			stats.keys = posts.distinct('key', q).collect { it }
 			stats.fragments = posts.distinct('fragment', q)
@@ -91,12 +92,14 @@ class BucketService {
 		def q = [bucket: name]
 		if (key) { q.key = key }
 		if (fragment) { q.fragment = fragment }
+		q
 	}
 
 	def getFeed(String name, String key = null, String fragment = null) {
 		def feed = getStats(name, key, fragment)
 		if (feed) {
-			feed.posts = posts.find(buildQuery(name, key, fragment)).sort(timestamp: 1).collect { it }
+			feed.posts = posts.findAll(buildQuery(name, key, fragment)).sort(timestamp: 1).collect { it }
+			return feed
 		} else {
 			return null
 		}

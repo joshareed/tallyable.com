@@ -29,8 +29,9 @@ class BucketControllerTests {
 
 	void testShow() {
 		controller.params.putAll(bucket: 'test', key: 'coffee')
+		request.contentType = 'text/html'
 		controller.show()
-		assert 'Show: test/coffee' == controller.response.contentAsString
+		assert 200 == controller.response.status
 	}
 
 	void testCheckDoesNotExists() {
