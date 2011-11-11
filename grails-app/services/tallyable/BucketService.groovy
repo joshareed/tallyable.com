@@ -99,10 +99,13 @@ class BucketService {
 		q
 	}
 
-	def getFeed(String name, String key = null, String fragment = null) {
+	def getFeed(String name, String key = null, String fragment = null, int limit = 1000) {
 		def feed = getStats(name, key, fragment)
 		if (feed) {
-			feed.posts = posts.findAll(buildQuery(name, key, fragment)).sort(timestamp: 1).collect { it }
+			feed.posts = posts.findAll(buildQuery(name, key, fragment))
+				.sort(timestamp: -1)
+				.limit(limit)
+				.collect { it.remove('_id'); it }
 			return feed
 		} else {
 			return null

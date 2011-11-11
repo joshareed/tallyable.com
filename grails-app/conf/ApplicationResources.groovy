@@ -3,4 +3,8 @@ modules = {
 		resource url: 'css/bootstrap.min.css', disposition: 'head'
 		resource url: 'css/main.css', disposition: 'head'
 	}
+	admin {
+		resource url: 'css/prettify.css', disposition: 'head'
+		resource url: 'js/prettify.js'
+	}
 }

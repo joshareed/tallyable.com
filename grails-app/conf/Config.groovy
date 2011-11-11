@@ -62,6 +62,8 @@ grails.hibernate.cache.queries = true
 environments {
 	development {
 		grails.logging.jul.usebridge = true
+		grails.serverURL = "http://tallyable.com"
+
 		mongo {
 			host = 'localhost'
 			db = 'tallyable_dev'

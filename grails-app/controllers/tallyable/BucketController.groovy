@@ -76,7 +76,7 @@ class BucketController {
 
 	def admin() {
 		withBucket(params) { bucket ->
-			[bucket: bucket, stats: bucketService.getStats(bucket.name)]
+			[bucket: bucket, feed: bucketService.getFeed(bucket.name, null, null, 25)]
 		}
 	}
 
