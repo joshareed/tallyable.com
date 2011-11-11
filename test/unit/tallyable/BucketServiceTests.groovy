@@ -24,22 +24,22 @@ class BucketServiceTests {
 		mongoService?.buckets?.drop()
 	}
 
-	void testValidate() {
-		assert !service.validate(null)
-		assert !service.validate('')
-		assert service.validate('._.')
-		assert service.validate('Test-Bucket')
-		assert service.validate('TEST.bucket')
-		assert !service.validate('$invalid')
-		assert !service.validate('&invalid')
-		assert !service.validate('*invalid')
-		assert !service.validate('@invalid')
-		assert !service.validate('=invalid')
-		assert !service.validate('Bucket')
-		assert !service.validate('Index')
-		assert !service.validate('test')
-		assert !service.validate('Testing')
-		assert !service.validate('tallyable')
+	void testValidateBucket() {
+		assert !service.validateBucket(null)
+		assert !service.validateBucket('')
+		assert service.validateBucket('._.')
+		assert service.validateBucket('Test-Bucket')
+		assert service.validateBucket('TEST.bucket')
+		assert !service.validateBucket('$invalid')
+		assert !service.validateBucket('&invalid')
+		assert !service.validateBucket('*invalid')
+		assert !service.validateBucket('@invalid')
+		assert !service.validateBucket('=invalid')
+		assert !service.validateBucket('Bucket')
+		assert !service.validateBucket('Index')
+		assert !service.validateBucket('test')
+		assert !service.validateBucket('Testing')
+		assert !service.validateBucket('tallyable')
 	}
 
 	void testGet() {

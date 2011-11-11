@@ -13,8 +13,12 @@ class BucketService {
 		name ? buckets.find(name: name.toLowerCase()) : null
 	}
 
-	def validate(String name) {
-		name && !(name.toLowerCase() in RESERVED) && (name.toLowerCase() ==~ /^[a-z0-9_\.-]+$/)
+	def validateBucket(String name) {
+		validateKey(name) && !(name.toLowerCase() in RESERVED)
+	}
+
+	def validateKey(String name) {
+		name && (name.toLowerCase() ==~ /^[a-z0-9_\.-]+$/)
 	}
 
 	def activate(String name) {
@@ -28,7 +32,7 @@ class BucketService {
 
 	def create(String name, String email) {
 		def bucket
-		if (validate(name)) {
+		if (validateBucket(name)) {
 			// create our bucket
 			def buckets = getBuckets()
 			bucket = buckets.add(
@@ -48,7 +52,7 @@ class BucketService {
 
 	def post(String name, String key, String fragment, def value) {
 		def bucket = get(name)
-		if (bucket && validate(key) && (!fragment || validate(fragment))) {
+		if (bucket && validateKey(key) && (!fragment || validateKey(fragment))) {
 			return posts.add(
 				'bucket': name.toLowerCase(),
 				'key': key.toLowerCase(),

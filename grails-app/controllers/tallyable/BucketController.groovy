@@ -40,7 +40,7 @@ class BucketController {
 		def errors = [:]
 		if (!params.bucket) {
 			errors.bucket = 'A bucket name is required'
-		} else if (!bucketService.validate(params.bucket)) {
+		} else if (!bucketService.validateBucket(params.bucket)) {
 			errors.bucket = 'Invalid bucket name'
 		}
 		if (!params.email) { errors.email = 'An email address is required' }
@@ -99,11 +99,11 @@ class BucketController {
 		if (key.contains(':')) {
 			(key, fragment) = key.split(':').collect { it.trim() }
 		}
-		if (!bucketService.validate(key)) {
+		if (!bucketService.validateKey(key)) {
 			response.sendError(400, 'Invalid key. Only letters, numbers, and ._- allowed')
 			return
 		}
-		if (fragment && !bucketService.validate(fragment)) {
+		if (fragment && !bucketService.validateKey(fragment)) {
 			response.sendError(400, 'Invalid fragment. Only letters, numbers, and ._- allowed')
 			return
 		}
