@@ -77,7 +77,7 @@
 	<input type="text" name="key" id="key"/>
 -->
 	<input type="number" name="value" id="value"/>
-	<input type="submit" value="Post!">
+	<input type="submit" value="Post!"/>
 </g:form></g:textify></pre>
 		</div>
 
@@ -85,11 +85,12 @@
 			<div style="margin-top: 30px">
 				<h3>
 					Recent Posts
-					<g:if test="${feed.posts.size() < feed.count}">
-						<small>
-							&mdash; latest ${feed.posts.size()} of ${feed.count} posts
-						</small>
-					</g:if>
+					<small>
+						<g:if test="${feed.posts.size() < feed.count}">
+							&mdash; latest ${feed.posts.size()} posts
+						</g:if>
+						&mdash; <a href="${createLink(controller: 'bucket', action: 'show', params: [bucket: bucket.name])}.json">JSON</a>
+					</small>
 				</h3>
 				<g:render template="table" model="[feed: feed]"/>
 			</div>
