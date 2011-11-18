@@ -26,7 +26,7 @@ class BucketController {
 				}
 			}
 		} else {
-			sendError(404, 'Invalid bucket name')
+			response.sendError(404, 'Invalid bucket name')
 		}
 	}
 
