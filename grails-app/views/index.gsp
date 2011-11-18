@@ -49,6 +49,13 @@
 			});
 		});
 	</script>
+	<style type="text/css" media="screen">
+		.lead {
+			font-size: 16px;
+			line-height: 22px;
+			margin-bottom: 30px;
+		}
+	</style>
 </head>
 <body>
 	<g:if test="${flash.message}">
@@ -62,19 +69,26 @@
 		</div>
 	</g:if>
 	<div class="page-header">
-		<h1>Tallyable <small>A silly little site for counting things</small></h1>
+		<h1>Tallyable <small>numbers are all around us, it's time to keep a tally</small></h1>
 	</div>
-	<p style="margin-bottom: 20px">
-		Get started by creating your own bucket to store all your tallies.	All you need is an email address!
+	<p class="lead">
+		If you can quantify it, we'll help you track and visualize it.	Get started by creating your own bucket to store all your tallies. All you need is an email address!
 	</p>
 	<div>
 		<g:form controller="bucket" method="post" useToken="false" style="margin-bottom: 0">
 			<g:hiddenField name="check" value="${check}"/>
 			<div class="clearfix ${errors?.bucket ? 'error' : ''}">
-				<label for="bucket">Bucket</label>
+				<label for="bucket">Bucket Name</label>
 				<div class="input">
 					<g:textField name="bucket" value="${bucket}" tabindex="1" class="span6"/>
-					<span class="help-inline">${errors?.bucket}</span>
+					<span class="help-inline">
+						<g:if test="${errors?.bucket}">
+							${errors?.bucket}
+						</g:if>
+						<g:else>
+							letters, numbers, underscores, and dashes
+						</g:else>
+					</span>
 				</div>
 			</div>
 			<div class="clearfix ${errors?.email ? 'error' : ''}">
