@@ -5,7 +5,7 @@ import java.security.MessageDigest
 class BucketService {
 	private static final String BUCKETS = "buckets"
 	private static final String POSTS = "posts"
-	private static final RESERVED = ['bucket', 'index', 'dev', 'test', 'testing', 'tallyable']
+	private static final RESERVED = ['bucket', 'index', 'dev', 'test', 'testing', 'tallyable', 'docs', 'help', 'api']
 
 	def mongoService
 
@@ -83,7 +83,7 @@ class BucketService {
 			stats.putAll(q)
 			stats.count = posts.count(q)
 			stats.keys = posts.distinct('key', q).collect { it }
-			stats.fragments = posts.distinct('fragment', q)
+			stats.fragments = posts.distinct('fragment', q).findAll { it }
 			return stats
 		} else {
 			return null
