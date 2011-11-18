@@ -130,7 +130,7 @@ class BucketController {
 	private parseKey(params) {
 		def key = params.key
 		def fragment = params.fragment
-		if (key.contains(':')) {
+		if (key && key.contains(':')) {
 			def split = key.split(':')
 			key = split[0].trim()
 			if (!fragment) {
