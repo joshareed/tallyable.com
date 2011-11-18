@@ -32,7 +32,7 @@ class BucketController {
 	/* creation methods */
 	def check() {
 		def bucket = bucketService.get(params.bucket)
-		render ([exists: (bucket != null)] as JSON)
+		render ([exists: (bucket != null || !bucketService.validateBucket(params.bucket))] as JSON)
 	}
 
 	def create() {

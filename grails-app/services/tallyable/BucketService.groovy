@@ -14,7 +14,7 @@ class BucketService {
 	}
 
 	def validateBucket(String name) {
-		validateKey(name) && !(name.toLowerCase() in RESERVED)
+		validateKey(name) && !(name.toLowerCase() in RESERVED) && !(name.toLowerCase().contains('tallyable'))
 	}
 
 	def validateKey(String name) {
