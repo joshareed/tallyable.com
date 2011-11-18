@@ -146,6 +146,7 @@ class BucketControllerTests {
 	}
 
 	void testParseKey() {
+		assert [null, null] == controller.parseKey([:])
 		assert ['key', null] == controller.parseKey(key: 'key')
 		assert ['key', 'fragment'] == controller.parseKey(key: 'key', fragment: 'fragment')
 		assert ['key', 'fragment'] == controller.parseKey(key: 'key:fragment')
