@@ -27,7 +27,7 @@
 			<g:if test="${!feed.posts}">
 				<tr>
 					<td colspan="3" style="text-align: center">
-						<em>no tallies for this key</em>
+						<em>no tallies</em>
 					</td>
 				</tr>
 			</g:if>
