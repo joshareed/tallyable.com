@@ -7,6 +7,14 @@
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
 			prettyPrint();
+			$('.js-show-help').click(function() {
+				var $help = $('.js-posting-help');
+				if ($help.is(':visible')) {
+					$('.js-posting-help').slideUp();
+				} else {
+					$('.js-posting-help').slideDown();
+				}
+			});
 		});
 	</script>
 	<style type="text/css" media="screen">
@@ -44,13 +52,16 @@
 		<div class="row">
 			<div class="span8" style="display: inline-block">
 				<h3>
-					Quick Post
+					Post
+					<small>
+						&mdash; <a href="#" class="js-show-help">other posting options &raquo;</a>
+					</small>
 				</h3>
 				<p>
 					<g:form action="post" params="[bucket: bucket.name, secret: bucket.token]">
 						<input type="text" name="key" id="key" placeholder="key" class="span3"/> :
 						<input type="text" name="value" id="value" placeholder="value" class="span2"/>
-						<input type="submit" value="Post!" class="primary btn" style="margin-left: 10px">
+						<input type="submit" value="Tally It!" class="primary btn" style="margin-left: 10px">
 					</g:form>
 				</p>
 			</div>
@@ -62,14 +73,16 @@
 				</p>
 			</div>
 		</div>
-		<div style="margin-top: 20px">
+		<div class="js-posting-help" style="display: ${feed.count == 0 ? 'block' : 'none'}">
 			<h3>
-				Embedding
-				<small>
-					&mdash;
-					<g:link controller="bucket" action="post" params="[bucket: bucket.name, secret: bucket.token]" absolute="true">Endpoint</g:link>
-				</small>
+				Posting
 			</h3>
+			<p>From the command line:</p>
+<pre class="prettyprint">
+curl -d "key=example&value=2" ${createLink(controller: "bucket", action: "post", params: [bucket: bucket.name, secret: bucket.token], absolute: true)}
+</pre>
+
+			<p>Embedded in a web page:</p>
 <pre class="prettyprint linenums"><g:textify><g:form params="[bucket: bucket.name, secret: bucket.token]" absolute="true" action="post">
 	<input type="hidden" name="key" id="key" value="the-key"/>
 <!--
@@ -82,7 +95,7 @@
 		</div>
 
 		<g:if test="${feed}">
-			<div style="margin-top: 30px">
+			<div>
 				<h3>
 					Recent Posts
 					<small>
