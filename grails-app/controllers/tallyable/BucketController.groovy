@@ -6,6 +6,7 @@ class BucketController {
 	static allowedMethods = [post: 'POST', create: 'POST']
 
 	def bucketService
+	def notificationService
 
 	def show() {
 		def bucket = bucketService.get(params.bucket)
@@ -59,14 +60,7 @@ class BucketController {
 		bucket = bucketService.create(params.bucket, params.email)
 		if (bucket) {
 			flash.message = "Your bucket has been created! Check your email for instructions on how to activate and start counting things"
-			sendMail {
-				to params.email
-				subject "Activate Your Tallyable Bucket"
-				body(
-					view: "/email/createBucket",
-					model: [bucket: bucket]
-				)
-			}
+			notificationService.bucketCreated(bucket)
 		} else {
 			flash.error = "Oops! Something unexpected happened while creating your bucket"
 		}

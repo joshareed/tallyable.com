@@ -12,14 +12,20 @@ import mongo.MongoService
 class BucketControllerTests {
 	def bucketService
 	def mongoService
+	def notificationService
 
 	@Before
 	void setUp() {
 		mongoService = new MongoService('localhost', 'tallyable_test')
 		mongoService.getCollection('buckets', true).add(name: 'test', token: 'secret')
+
 		bucketService = new BucketService()
 		bucketService.mongoService = mongoService
+
+		notificationService = new NotificationService()
+
 		controller.bucketService = bucketService
+		controller.notificationService = notificationService
 	}
 
 	@After
@@ -86,11 +92,13 @@ class BucketControllerTests {
 	}
 
 	void testCreate() {
+		assert 0 == notificationService.pending.size()
 		controller.params.putAll(bucket: 'refactr', email: 'test@example.com')
 		controller.request.method = "POST"
 		controller.create()
-		assert 'Your bucket has been registered! Check your email for instructions on how to activate and start counting things' == controller.flash.message
+		assert 'Your bucket has been created! Check your email for instructions on how to activate and start counting things' == controller.flash.message
 		assert '/' == controller.response.redirectedUrl
+		assert 1 == notificationService.pending.size()
 	}
 
 	void testCreateRequiresBucket() {
