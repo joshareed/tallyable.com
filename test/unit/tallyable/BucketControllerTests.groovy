@@ -55,7 +55,7 @@ class BucketControllerTests {
 
 	void testCheckMalformed() {
 		controller.check()
-		assert '{"exists":false}' == controller.response.contentAsString
+		assert '{"exists":true}' == controller.response.contentAsString
 	}
 
 	void testActivateNoBucket() {
@@ -143,5 +143,12 @@ class BucketControllerTests {
 		controller.create()
 		assert '/index' == view
 		assert [bucket: 'test', email: 'test@example.com', errors: [bucket: 'That bucket is already registered']] == model
+	}
+
+	void testParseKey() {
+		assert ['key', null] == controller.parseKey(key: 'key')
+		assert ['key', 'fragment'] == controller.parseKey(key: 'key', fragment: 'fragment')
+		assert ['key', 'fragment'] == controller.parseKey(key: 'key:fragment')
+		assert ['key', 'fragment'] == controller.parseKey(key: 'key:other', fragment: 'fragment')
 	}
 }

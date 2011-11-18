@@ -11,11 +11,7 @@ class BucketController {
 	def show() {
 		def bucket = bucketService.get(params.bucket)
 		if (bucket) {
-			def key = params.key
-			def fragment = null
-			if (key && key.contains(':')) {
-				(key, fragment) = key.split(':').collect { it.trim() }
-			}
+			def (key, fragment) = parseKey(params)
 			def feed = bucketService.getFeed(bucket.name, key, fragment)
 			withFormat {
 				html {
@@ -93,17 +89,10 @@ class BucketController {
 
 	def post() {
 		// parse our key and fragment
-		def key = params.key
-		def fragment = null
+		def (key, fragment) = parseKey(params)
 		if (!key) {
 			response.sendError(400, 'Key is required')
 			return
-		}
-		if (key.contains(':')) {
-			(key, fragment) = key.split(':').collect { it.trim() }
-		}
-		if (key.contains('/')) {
-			(key, fragment) = key.split('/').collect { it.trim() }
 		}
 		if (!bucketService.validateKey(key)) {
 			response.sendError(400, 'Invalid key. Only letters, numbers, and ._- allowed')
@@ -136,6 +125,19 @@ class BucketController {
 				redirect controller: 'bucket', action: 'show', params: [bucket: bucket.name]
 			}
 		}
+	}
+
+	private parseKey(params) {
+		def key = params.key
+		def fragment = params.fragment
+		if (key.contains(':')) {
+			def split = key.split(':')
+			key = split[0].trim()
+			if (!fragment) {
+				fragment = split[1].trim()
+			}
+		}
+		[key, fragment]
 	}
 
 	private withBucket(Map params, Closure closure) {
