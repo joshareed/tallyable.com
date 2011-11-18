@@ -62,7 +62,7 @@ grails.hibernate.cache.queries = true
 environments {
 	development {
 		grails.logging.jul.usebridge = true
-		grails.serverURL = "http://tallyable.com"
+		grails.serverURL = "http://localhost:8080/tallyable"
 
 		mongo {
 			host = 'localhost'
@@ -113,8 +113,8 @@ grails {
 	mail {
 		host = "smtp.gmail.com"
 		port = 465
-		username = "youracount@gmail.com"
-		password = "yourpassword"
+		username = "info@tallyable.com"
+		password = "~=[,,_,,]:3"
 		props = [
 			"mail.smtp.auth": "true",
 			"mail.smtp.socketFactory.port": "465",

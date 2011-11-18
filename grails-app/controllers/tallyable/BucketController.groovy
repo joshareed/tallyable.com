@@ -58,7 +58,15 @@ class BucketController {
 		// create the bucket
 		bucket = bucketService.create(params.bucket, params.email)
 		if (bucket) {
-			flash.message = "Your bucket has been registered! Check your email for instructions on how to activate and start counting things"
+			flash.message = "Your bucket has been created! Check your email for instructions on how to activate and start counting things"
+			sendMail {
+				to params.email
+				subject "Activate Your Tallyable Bucket"
+				body(
+					view: "/email/createBucket",
+					model: [bucket: bucket]
+				)
+			}
 		} else {
 			flash.error = "Oops! Something unexpected happened while creating your bucket"
 		}

@@ -44,8 +44,6 @@ class BucketService {
 				'public': true,
 				'created': new Date()
 			)
-
-			// TODO: send the email
 		}
 		bucket
 	}
