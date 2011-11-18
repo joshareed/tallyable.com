@@ -102,6 +102,9 @@ class BucketController {
 		if (key.contains(':')) {
 			(key, fragment) = key.split(':').collect { it.trim() }
 		}
+		if (key.contains('/')) {
+			(key, fragment) = key.split('/').collect { it.trim() }
+		}
 		if (!bucketService.validateKey(key)) {
 			response.sendError(400, 'Invalid key. Only letters, numbers, and ._- allowed')
 			return
