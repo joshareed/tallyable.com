@@ -8,7 +8,9 @@
 	<div class="page-header">
 		<h1>
 			<g:render template="title" model="${feed}"/>
-			<span style="color: #BFBFBF; margin-left: 10px">(${feed.count})</span>
+			<small>
+				&mdash; <a href="${createLink(controller: 'bucket', action: 'show', params: [bucket: feed.bucket])}.json">JSON</a>
+			</small>
 		</h1>
 	</div>
 	<g:render template="table" model="[feed: feed]"/>
