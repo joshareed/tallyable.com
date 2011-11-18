@@ -21,7 +21,7 @@
 							</g:link>
 						</g:if>
 					</td>
-					<td><g:formatNumber number="${post.value}"/></td>
+					<td><g:formatNumber number="${post.value}" format="0.##"/></td>
 				</tr>
 			</g:each>
 			<g:if test="${!feed.posts}">
