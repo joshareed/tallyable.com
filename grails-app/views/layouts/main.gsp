@@ -20,6 +20,11 @@
 			<g:layoutBody/>
 		</div>
 	</div>
+	<div class="container">
+		<div class="footer">
+			<g:render template="/git"/> &mdash; <g:meta name="app.version"/>
+		</div>
+	</div>
 	<r:layoutResources />
 </body>
 </html>

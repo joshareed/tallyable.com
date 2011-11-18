@@ -6,3 +6,4 @@ target
 /mongo
 cobertura.ser
 stacktrace.log
+grails-app/views/_git.gsp
