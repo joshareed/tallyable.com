@@ -24,6 +24,7 @@ class MongoServiceTests {
 		service.getCollection('_test_object').drop()
 		def remove = GroovySystem.metaClassRegistry.&removeMetaClass
 		remove MongoService
+		service.mongo.close()
 	}
 
 	void testGetCollection() {

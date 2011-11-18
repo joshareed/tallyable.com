@@ -23,4 +23,17 @@ class NotificationServiceTests {
 			model: [bucket: [email: 'test@example.com', name: 'test']]
 		] == service.pending[0]
 	}
+
+	void testTokenReset() {
+		assert !service.pending
+
+		service.tokenReset(email: 'test@example.com', name: 'test')
+		assert 1 == service.pending.size()
+		assert [
+			to: 'test@example.com',
+			subject: "Tallyable Token Reset",
+			view: "/email/resetToken",
+			model: [bucket: [email: 'test@example.com', name: 'test']]
+		] == service.pending[0]
+	}
 }

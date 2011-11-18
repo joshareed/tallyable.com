@@ -14,6 +14,15 @@ class NotificationService {
 		]
 	}
 
+	def tokenReset(bucket) {
+		pending << [
+			to: bucket.email,
+			subject: "Tallyable Token Reset",
+			view: "/email/resetToken",
+			model: [bucket: bucket]
+		]
+	}
+
 	def sendPending() {
 		while (pending) {
 			try {

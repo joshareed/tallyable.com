@@ -31,6 +31,7 @@ class BucketControllerTests {
 	@After
 	void tearDown() {
 		mongoService?.buckets?.drop()
+		mongoService.mongo.close()
 	}
 
 	void testShow() {
@@ -82,6 +83,18 @@ class BucketControllerTests {
 		controller.params.secret = 'secret'
 		controller.admin()
 		assert 200 == controller.response.status
+	}
+
+	void testToken() {
+		assert 'secret' == bucketService.get('test').token
+		controller.params.bucket = 'test'
+		controller.params.secret = 'secret'
+		controller.token()
+		def bucket = bucketService.get('test')
+		assert 'secret' != bucket.token
+		assert 'New token generated!' == controller.flash.message
+		assert 302 == controller.response.status
+		assert "/bucket/admin?bucket=test&secret=${bucket.token}" == controller.response.redirectedUrl
 	}
 
 	void testPost() {

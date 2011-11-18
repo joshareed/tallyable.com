@@ -86,6 +86,7 @@ class BucketController {
 		withBucket(params) { bucket ->
 			bucket = bucketService.newToken(params.bucket)
 			flash.message = 'New token generated!'
+			notificationService.tokenReset(bucket)
 			redirect controller: 'bucket', action: 'admin', params: [bucket: bucket.name, secret: bucket.token]
 		}
 	}

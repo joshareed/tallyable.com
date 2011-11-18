@@ -22,6 +22,7 @@ class BucketServiceTests {
 	@After
 	void tearDown() {
 		mongoService?.buckets?.drop()
+		mongoService.mongo.close()
 	}
 
 	void testValidateBucket() {
