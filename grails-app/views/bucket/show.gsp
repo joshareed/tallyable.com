@@ -12,14 +12,14 @@
 					{
 						widget: 'label',
 						config: {
-							label: 'Count',
-							aggregation: 'count'
+							label: 'Foo',
+							height: 100,
+							width: 100
 						}
 					}
 				],
-				'${createLink(controller: "bucket", action: "show", params: [bucket: feed.bucket])}.json'
+				'<g:jsonLink src="${feed}"/>'
 			);
-			tallyable.draw();
 		});
 	</script>
 </head>
