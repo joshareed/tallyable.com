@@ -16,9 +16,9 @@
 							${post.key}
 						</g:link>
 						<g:if test="${post.fragment}">
-							: <g:link controller="bucket" action="show" params="[bucket: feed.bucket, key: post.key + (post.fragment ? ':' + post.fragment : '')]">
+							: <a href="${createLink(controller: 'bucket', action: 'show', params: [bucket: feed.bucket, key: post.key])}:${post.fragment}">
 								${post.fragment}
-							</g:link>
+							</a>
 						</g:if>
 					</td>
 					<td><g:formatNumber number="${post.value}" format="0.##"/></td>

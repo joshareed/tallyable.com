@@ -9,7 +9,7 @@
 		<h1>
 			<g:render template="title" model="${feed}"/>
 			<small>
-				&mdash; <a href="${createLink(controller: 'bucket', action: 'show', params: [bucket: feed.bucket])}.json">JSON</a>
+				&mdash; <g:jsonLink src="${feed}">JSON</g:jsonLink>
 			</small>
 		</h1>
 	</div>
