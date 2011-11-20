@@ -8,7 +8,9 @@ modules = {
 		resource url: 'js/prettify.js'
 	}
 	dashboard {
+		resource url: 'css/widget.css', disposition: 'head'
 		resource url: 'js/tallyable.js'
 		resource url: 'js/widgets/tallyable.label.js'
+		resource url: 'js/widgets/tallyable.aggregate.js'
 	}
 }

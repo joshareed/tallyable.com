@@ -1,0 +1,23 @@
+#viz {
+	margin: 20 0px;
+	padding: 0;
+}
+.widget {
+	display: inline-block;
+	margin: 10px;
+}
+.widget .text {
+	font-size: 28px;
+	line-height: 34px;
+	margin: 5px;
+	text-align: center;
+	display: block;
+}
+.widget .value {
+	font-size: 36px;
+	line-height: 42px;
+	margin: 5px;
+	font-weight: bold;
+	display: block;
+	text-align: center;
+}

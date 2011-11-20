@@ -7,16 +7,10 @@
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
 			var tallyable = new Tallyable(
-				'dashboard',
+				'#viz',
 				[
-					{
-						widget: 'label',
-						config: {
-							label: 'Foo',
-							height: 100,
-							width: 100
-						}
-					}
+					{ widget: 'aggregate', config: { func: 'avg', label: 'today', filter: 'day' } },
+					{ widget: 'aggregate', config: { func: 'sum', label: 'total' } }
 				],
 				'<g:jsonLink src="${feed}"/>'
 			);
@@ -32,7 +26,7 @@
 			</small>
 		</h1>
 	</div>
-	<div id="dashboard"></div>
+	<div id="viz"></div>
 	<g:render template="table" model="[feed: feed]"/>
 </body>
 </html>

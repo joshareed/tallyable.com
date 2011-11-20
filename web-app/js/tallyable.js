@@ -2,13 +2,14 @@ var Tallyable;
 
 (function() {
 	// constructor
-	Tallyable = function(id, manifest, url) {
-		var $elm = $('#' + id);
+	Tallyable = function(selector, manifest, url) {
 		var $this = this;
+		var $elm = $(selector);
 		$.each(manifest, function(i, widget) {
 			var $w = $('<div></div>')
 				.attr('id', 'widget' + i)
-				.addClass('widget');
+				.addClass('widget')
+				.addClass(widget.widget);
 			if (widget.config.width != null) {
 				var w = widget.config.width;
 				if (typeof(w) == 'number') { w = w + 'px'; }
@@ -37,6 +38,17 @@ var Tallyable;
 		var id = widget.id;
 		Tallyable.widgets[id] = widget;
 	}
+	Tallyable.filter = function(list, dur) {
+		var filtered = [];
+		var since = new Date().getTime() - dur;
+		for (var i = 0; i < list.length; i++) {
+			var d = new Date(list[i].timestamp);
+			if (d.getTime() >= since) {
+				filtered.push(list[i]);
+			}
+		}
+		return filtered;
+	}
 
 	// Tallyable prototype
 	Tallyable.prototype = {
@@ -46,7 +58,7 @@ var Tallyable;
 			$.each(this._instances, function(i, w) {
 				var widget = Tallyable.widgets[w.widget];
 				if (widget != null) {
-					widget.render(w.elm, w.config, {});
+					widget.render(widget, w.elm, w.config, data);
 				}
 			});
 		}
