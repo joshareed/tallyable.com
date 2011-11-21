@@ -21,7 +21,7 @@ Tallyable.register({
 		}
 
 		// add elements
-		$('<span></span>').text(value).addClass('value').appendTo(elm);
+		$('<span></span>').text(value.toFixed(2)).addClass('value').appendTo(elm);
 		$('<span></span>').html(settings.label).addClass('text').appendTo(elm);
 	},
 	aggregators: {
@@ -67,10 +67,10 @@ Tallyable.register({
 	},
 	filters: {
 		all: function(list) { return list; },
-		year: function(list) { return Tallyable.filter(list, 31556926000); },
-		month: function(list) { return Tallyable.filter(list, 2592000000); },
-		week: function(list) { return Tallyable.filter(list, 604800000); },
-		day: function(list) { return Tallyable.filter(list, 86400000); },
-		hour: function(list) { return Tallyable.filter(list, 3600000); }
+		year: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24 * 365); },
+		month: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24 * 30); },
+		week: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24 * 7); },
+		day: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24); },
+		hour: function(list) { return Tallyable.filter(list, 1000 * 60 * 60); }
 	}
 });

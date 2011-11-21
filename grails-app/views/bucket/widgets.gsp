@@ -1,5 +1,5 @@
 <%
-	def WIDGETS = ['text', 'aggregate']
+	def WIDGETS = ['text', 'aggregate', 'since']
 %>
 <!doctype html>
 <html>

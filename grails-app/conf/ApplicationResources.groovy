@@ -12,5 +12,6 @@ modules = {
 		resource url: 'js/tallyable.js'
 		resource url: 'js/widgets/tallyable.text.js'
 		resource url: 'js/widgets/tallyable.aggregate.js'
+		resource url: 'js/widgets/tallyable.since.js'
 	}
 }
