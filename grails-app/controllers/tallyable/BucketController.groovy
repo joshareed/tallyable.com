@@ -12,10 +12,15 @@ class BucketController {
 		def bucket = bucketService.get(params.bucket)
 		if (bucket) {
 			def (key, fragment) = parseKey(params)
+			if (key == bucket.token) {
+				redirect action: 'admin', params: [bucket: bucket.name, secret: bucket.token]
+				return
+			}
+
 			def feed = bucketService.getFeed(bucket.name, key, fragment)
 			withFormat {
 				html {
-					def widgets = bucketService.getWidgets(bucket.name, key, fragment)
+					def widgets = bucketService.getWidgets(bucket.name, key)
 					[feed: feed, widgets: (widgets as JSON)]
 				}
 				json {
@@ -125,6 +130,37 @@ class BucketController {
 			} else {
 				redirect controller: 'bucket', action: 'show', params: [bucket: bucket.name]
 			}
+		}
+	}
+
+	def widgets() {
+		withBucket(params) { bucket ->
+			def (key, fragment) = parseKey(params)
+			def widgets = bucketService.getWidgets(bucket.name, key)
+			[bucket: bucket, key: key, widgets: widgets]
+		}
+	}
+
+	def updateWidgets() {
+		withBucket(params) { bucket ->
+			def (key, fragment) = parseKey(params)
+			def widgets = []
+			params.widget.sort { it.key }.each { k, v ->
+				if (v) {
+					def parsed = [widget: v, config: [:]]
+					if (params.config[k]) {
+						try {
+							parsed.config = Eval.me('[' + params.config[k] + ']')
+						} catch (e) {
+							// invalid config
+						}
+					}
+					widgets.add(parsed)
+				}
+			}
+			bucketService.setWidgets(bucket.name, key, widgets)
+			flash.message = "Updated widgets for ${bucket.name}/${key}"
+			redirect controller: 'bucket', action: 'admin', params: [bucket: bucket.name, secret: bucket.token]
 		}
 	}
 

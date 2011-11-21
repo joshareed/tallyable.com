@@ -5,6 +5,7 @@ import java.security.MessageDigest
 class BucketService {
 	private static final String BUCKETS = "buckets"
 	private static final String POSTS = "posts"
+	private static final String WIDGETS = "widgets"
 	private static final RESERVED = ['bucket', 'index', 'dev', 'test', 'testing', 'tallyable', 'docs', 'help', 'api', 'admin']
 
 	def mongoService
@@ -90,8 +91,21 @@ class BucketService {
 		}
 	}
 
-	def getWidgets(String name, String key = null, String fragment = null) {
-		[]
+	def getWidgets(String name, String key = null) {
+		def path = "${name}/${key ?: ''}".toString()
+		mongoService.getCollection(WIDGETS, true).find(path: path)?.widgets ?: []
+	}
+
+	def setWidgets(String name, String key = null, List widgets) {
+		def path = "${name}/${key ?: ''}".toString()
+		def col = mongoService.getCollection(WIDGETS, true)
+		def existing = col.find(path: path)
+		if (existing) {
+			existing.widgets = widgets
+			col.update(path: path, existing)
+		} else {
+			col.add(path: path, widgets: widgets)
+		}
 	}
 
 	private buildQuery(String name, String key = null, String fragment = null) {

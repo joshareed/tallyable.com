@@ -118,7 +118,7 @@ curl -d "key=example&value=2" ${createLink(controller: "bucket", action: "post",
 								<li><g:link controller="bucket" action="show" params="[bucket: bucket.name, key:key]">${key}</g:link></li>
 							</td>
 							<td style="text-align: right">
-								<g:link action="widgets" params="[bucket: bucket.name, secret: bucket.token]" class="btn small">Manage widgets &raquo;</g:link>
+								<g:link action="widgets" params="[bucket: bucket.name, secret: bucket.token, key: key]" class="btn small">Manage widgets &raquo;</g:link>
 							</td>
 						</tr>
 					</g:each>

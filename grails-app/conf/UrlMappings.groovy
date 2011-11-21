@@ -8,6 +8,6 @@ class UrlMappings {
 			action = [GET: 'check', POST: 'create']
 		}
 		"/$bucket/$key?"(controller: 'bucket', action: 'show')
-		"/$bucket/$secret/$action"(controller: 'bucket')
+		"/$bucket/$secret/$action/$key?"(controller: 'bucket')
 	}
 }
