@@ -1,7 +1,7 @@
 Tallyable.register({
 	id: 'aggregate',
 	name: 'Aggregate',
-	description: 'Aggregate values',
+	description: 'Aggregate a list of tallies and displays the value along with a label',
 	dependencies: [],
 	render: function(self, elm, config, data) {
 		var settings = $.extend({ label: '', func: 'sum', filter: 'all' }, config);

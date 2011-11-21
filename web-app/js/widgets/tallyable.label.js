@@ -1,7 +1,7 @@
 Tallyable.register({
 	id: 'label',
 	name: 'Label',
-	description: 'A simple label of static text',
+	description: 'Displays a simple static label',
 	dependencies: [],
 	render: function(self, elm, config, data) {
 		var settings = $.extend({ label: '' }, config);
