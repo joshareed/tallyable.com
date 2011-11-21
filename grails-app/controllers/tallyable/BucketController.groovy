@@ -15,7 +15,8 @@ class BucketController {
 			def feed = bucketService.getFeed(bucket.name, key, fragment)
 			withFormat {
 				html {
-					[feed: feed]
+					def widgets = bucketService.getWidgets(bucket.name, key, fragment)
+					[feed: feed, widgets: (widgets as JSON)]
 				}
 				json {
 					render ((feed) as JSON)

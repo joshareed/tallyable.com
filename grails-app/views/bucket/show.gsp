@@ -6,15 +6,7 @@
 	<r:require modules="dashboard"/>
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
-			var tallyable = new Tallyable(
-				'#viz',
-				[
-					{ widget: 'aggregate', config: { func: 'sum', label: 'today', filter: 'day' } },
-					{ widget: 'aggregate', config: { func: 'sum', label: 'week', filter: 'week' } },
-					{ widget: 'aggregate', config: { func: 'sum', label: 'total' } }
-				],
-				'<g:jsonLink src="${feed}"/>'
-			);
+			new Tallyable('#viz', ${widgets}, '<g:jsonLink src="${feed}"/>');
 		});
 	</script>
 </head>

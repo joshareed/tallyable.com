@@ -5,7 +5,7 @@ import java.security.MessageDigest
 class BucketService {
 	private static final String BUCKETS = "buckets"
 	private static final String POSTS = "posts"
-	private static final RESERVED = ['bucket', 'index', 'dev', 'test', 'testing', 'tallyable', 'docs', 'help', 'api']
+	private static final RESERVED = ['bucket', 'index', 'dev', 'test', 'testing', 'tallyable', 'docs', 'help', 'api', 'admin']
 
 	def mongoService
 
@@ -88,6 +88,10 @@ class BucketService {
 		} else {
 			return null
 		}
+	}
+
+	def getWidgets(String name, String key = null, String fragment = null) {
+		[]
 	}
 
 	private buildQuery(String name, String key = null, String fragment = null) {
