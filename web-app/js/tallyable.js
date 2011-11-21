@@ -8,8 +8,7 @@ var Tallyable;
 		$.each(manifest, function(i, widget) {
 			var $w = $('<div></div>')
 				.attr('id', 'widget' + i)
-				.addClass('widget')
-				.addClass(widget.widget);
+				.addClass('widget');
 			if (widget.config.width != null) {
 				var w = widget.config.width;
 				if (typeof(w) == 'number') { w = w + 'px'; }
@@ -58,6 +57,7 @@ var Tallyable;
 			$.each(this._instances, function(i, w) {
 				var widget = Tallyable.widgets[w.widget];
 				if (widget != null) {
+					$(w.elm).addClass(widget.id);
 					widget.render(widget, w.elm, w.config, data);
 				}
 			});

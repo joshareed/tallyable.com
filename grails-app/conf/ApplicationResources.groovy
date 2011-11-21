@@ -10,7 +10,7 @@ modules = {
 	dashboard {
 		resource url: 'css/widget.css', disposition: 'head'
 		resource url: 'js/tallyable.js'
-		resource url: 'js/widgets/tallyable.label.js'
+		resource url: 'js/widgets/tallyable.text.js'
 		resource url: 'js/widgets/tallyable.aggregate.js'
 	}
 }
