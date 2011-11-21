@@ -10,7 +10,14 @@ Tallyable.register({
 
 		if (data.posts.length > 0) {
 			var since = (new Date().getTime()) - (new Date(data.posts[0].timestamp).getTime());
-			if (since < self.consts.DAY) {
+
+			if (since < self.consts.MINUTE) {
+				units = 'seconds';
+				value = (since / self.consts.SECOND).toFixed(2);
+			} else if (since < self.consts.HOUR) {
+				units = 'minutes';
+				value = (since / self.consts.MINUTE).toFixed(2);
+			} else if (since < self.consts.DAY) {
 				units = 'hours';
 				value = (since / self.consts.HOUR).toFixed(2);
 			} else if (since < self.consts.WEEK) {
@@ -32,6 +39,8 @@ Tallyable.register({
 		$('<span></span>').html(units + ' since ' + settings.label).addClass('text').appendTo(elm);
 	},
 	consts: {
+		SECOND: 1000,
+		MINUTE: 1000 * 60,
 		HOUR: 1000 * 60 * 60,
 		DAY: 1000 * 60 * 60 * 24,
 		WEEK: 1000 * 60 * 60 * 24 * 7,
