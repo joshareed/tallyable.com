@@ -9,7 +9,8 @@
 			var tallyable = new Tallyable(
 				'#viz',
 				[
-					{ widget: 'aggregate', config: { func: 'avg', label: 'today', filter: 'day' } },
+					{ widget: 'aggregate', config: { func: 'sum', label: 'today', filter: 'day' } },
+					{ widget: 'aggregate', config: { func: 'sum', label: 'week', filter: 'week' } },
 					{ widget: 'aggregate', config: { func: 'sum', label: 'total' } }
 				],
 				'<g:jsonLink src="${feed}"/>'
