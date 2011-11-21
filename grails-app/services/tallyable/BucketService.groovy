@@ -14,11 +14,11 @@ class BucketService {
 	}
 
 	def validateBucket(String name) {
-		validateKey(name) && !(name.toLowerCase() in RESERVED) && !(name.toLowerCase().contains('tallyable'))
+		validateKey(name) && !(name.toLowerCase() in RESERVED) && !(name.toLowerCase().contains('tallyable')) && name.length() <= 80
 	}
 
 	def validateKey(String name) {
-		name && (name.toLowerCase() ==~ /^[a-z0-9_\.-]+$/)
+		name && (name.toLowerCase() ==~ /^[a-z0-9_\.-]+$/) && name.length() <= 80
 	}
 
 	def activate(String name) {

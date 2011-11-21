@@ -41,6 +41,7 @@ class BucketServiceTests {
 		assert !service.validateBucket('test')
 		assert !service.validateBucket('Testing')
 		assert !service.validateBucket('tallyable')
+		assert !service.validateBucket('123456789012345678901234567890123456789012345678901234567890123456789012345678901')
 	}
 
 	void testGet() {
