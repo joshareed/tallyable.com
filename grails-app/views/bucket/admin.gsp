@@ -59,7 +59,7 @@
 				</h3>
 				<p>
 					<g:form action="post" params="[bucket: bucket.name, secret: bucket.token]">
-						<input type="text" name="key" id="key" placeholder="key" class="span3"/> :
+						<input type="text" name="key" id="key" placeholder="key" class="span3"/> =
 						<input type="text" name="value" id="value" placeholder="value" class="span2"/>
 						<input type="submit" value="Tally It!" class="primary btn" style="margin-left: 10px">
 					</g:form>
@@ -69,7 +69,7 @@
 				<h3>Token</h3>
 				<p>
 					${bucket.token}
-					<g:link controller="bucket" action="token" params="[bucket: bucket.name, secret: bucket.token]" class="btn small" style="margin-left: 20px">New Token</g:link>
+					<g:link controller="bucket" action="token" params="[bucket: bucket.name, secret: bucket.token]" class="btn small danger" style="margin-left: 20px">New Token</g:link>
 				</p>
 			</div>
 		</div>
@@ -94,20 +94,37 @@ curl -d "key=example&value=2" ${createLink(controller: "bucket", action: "post",
 </g:form></g:textify></pre>
 		</div>
 
-		<g:if test="${feed}">
-			<div>
-				<h3>
-					Recent Posts
-					<small>
-						<g:if test="${feed.posts.size() < feed.count}">
-							&mdash; latest ${feed.posts.size()} posts
-						</g:if>
-						&mdash; <a href="${createLink(controller: 'bucket', action: 'show', params: [bucket: bucket.name])}.json">JSON</a>
-					</small>
-				</h3>
-				<g:render template="table" model="[feed: feed]"/>
-			</div>
-		</g:if>
+		<div>
+			<h3>Keys</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<g:link controller="bucket" action="show" params="[bucket: bucket.name]">${bucket.name}</g:link>
+						</td>
+						<td style="text-align: right">
+							<g:link action="widgets" params="[bucket: bucket.name, secret: bucket.token]" class="btn small">Manage widgets &raquo;</g:link>
+						</td>
+					</tr>
+					<g:each in="${feed.keys}" var="key">
+						<tr>
+							<td>
+								<li><g:link controller="bucket" action="show" params="[bucket: bucket.name, key:key]">${key}</g:link></li>
+							</td>
+							<td style="text-align: right">
+								<g:link action="widgets" params="[bucket: bucket.name, secret: bucket.token]" class="btn small">Manage widgets &raquo;</g:link>
+							</td>
+						</tr>
+					</g:each>
+				</tbody>
+			</table>
+		</div>
 	</g:else>
 </body>
 </html>
