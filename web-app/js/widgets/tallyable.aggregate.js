@@ -71,6 +71,18 @@ Tallyable.register({
 		month: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24 * 30); },
 		week: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24 * 7); },
 		day: function(list) { return Tallyable.filter(list, 1000 * 60 * 60 * 24); },
-		hour: function(list) { return Tallyable.filter(list, 1000 * 60 * 60); }
+		hour: function(list) { return Tallyable.filter(list, 1000 * 60 * 60); },
+		today: function(list) {
+			var now = new Date();
+			var midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0);
+			var match = [];
+			for (var i = 0; i < list.length; i++) {
+				var d = new Date(list[i].timestamp);
+				if (d.getTime() > midnight.getTime()) {
+					match.push(list[i]);
+				}
+			}
+			return match;
+		}
 	}
 });
