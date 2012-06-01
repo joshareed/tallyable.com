@@ -28,6 +28,13 @@ Tallyable.register({
 		count: function(list) {
 			return list.length;
 		},
+		latest: function(list) {
+			if (list && list.length > 0) {
+				return list[0].value;
+			} else {
+				return 0;
+			}
+		},
 		sum: function(list) {
 			var sum = 0;
 			for (var i = 0; i < list.length; i++) {
